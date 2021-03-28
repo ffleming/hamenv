@@ -2,21 +2,22 @@
 set -eo pipefail
 
 PROGRAM_DIR="/opt/Analog_Bridge"
-ANALOG_BRIDGE_CONFIG="/Analog_Bridge.ini"
+ANALOG_BRIDGE_INI="/Analog_Bridge.ini"
 DVSWITCH_INI="/DVSwitch.ini"
-USRP_PORT=${USRP_PORT:-51100}
-PLATFORM=${PLATFORM:-amd64}
+MMDVM_INI=${MMDVM_INI:-/MMDVM_Bridge.ini}
+
+REPEATER_ID=${REPEATER_ID:-"${DMR_ID}"01}
+
 BM_ADDR=${BM_ADDR:-3103.repeater.net}
 BM_PORT=${BM_PORT:-62031}
 BM_LOCAL_PORT=${BM_LOCAL_PORT:-62032}
-REPEATER_ID=${REPEATER_ID:-"${DMR_ID}"01}
+PLATFORM=${PLATFORM:-amd64}
 LATITUDE=${LATITUDE:-0}
 LONGITUDE=${LONGITUDE:-0}
 LOCATION=${LOCATION:-UNKNOWN}
-DESCRIPTION=${DESCRIPTION:-hamenv Bridge}
+DESCRIPTION=${DESCRIPTION:-"netops using ffleming/dmr-bridge"}
 URL=${URL:-"https://qrz.com/db/${CALLSIGN}"}
 
-MMDVM_INI=${MMDVM_INI:-/MMDVM_Bridge.ini}
 
 if [ ! ${DMR_ID} ]
 then
@@ -33,15 +34,20 @@ then
     echo "No BM password provided, exiting."
     exit 1
 fi
+if [ -z ${USRP_PORT} ]
+then
+    echo "No USRP port provided, exiting."
+    exit 1
+fi
 # Check if the configuration file exists and populate it if it does not
-if [ ! -f ${ANALOG_BRIDGE_CONFIG} ]
+if [ ! -f ${ANALOG_BRIDGE_INI} ]
 then
     echo -n "configuring analog bridge..."
-    cp ${ANALOG_BRIDGE_CONFIG}.tmpl ${ANALOG_BRIDGE_CONFIG}
-    sed -i "s/{{USRP_PORT}}/${USRP_PORT}/g" ${ANALOG_BRIDGE_CONFIG}
-    sed -i "s/{{DMR_ID}}/${DMR_ID}/g" ${ANALOG_BRIDGE_CONFIG}
-    sed -i "s/{{REPEATER_ID}}/${REPEATER_ID}/g" ${ANALOG_BRIDGE_CONFIG}
-    sed -i "s|{{AMBE_DECODER_DEVICE}}|${AMBE_DECODER_DEVICE}|g" ${ANALOG_BRIDGE_CONFIG}
+    cp ${ANALOG_BRIDGE_INI}.tmpl ${ANALOG_BRIDGE_INI}
+    sed -i "s/{{USRP_PORT}}/${USRP_PORT}/g" ${ANALOG_BRIDGE_INI}
+    sed -i "s/{{DMR_ID}}/${DMR_ID}/g" ${ANALOG_BRIDGE_INI}
+    sed -i "s/{{REPEATER_ID}}/${REPEATER_ID}/g" ${ANALOG_BRIDGE_INI}
+    sed -i "s|{{AMBE_DECODER_DEVICE}}|${AMBE_DECODER_DEVICE}|g" ${ANALOG_BRIDGE_INI}
     echo "done"
     # Configure DVSwitch
     echo -n "configuring DVSwitch..."
@@ -53,7 +59,7 @@ then
     echo "done"
 fi
 
-./Analog_Bridge ${ANALOG_BRIDGE_CONFIG} &
+./Analog_Bridge ${ANALOG_BRIDGE_INI} &
 
 if [ ! -f ${MMDVM_INI} ]
 then
@@ -64,7 +70,7 @@ then
     sed -i "s/{{LATITUDE}}/${LATITUDE}/g" ${MMDVM_INI}
     sed -i "s/{{LONGITUDE}}/${LONGITUDE}/g" ${MMDVM_INI}
     sed -i "s/{{LOCATION}}/${LOCATION}/g"  ${MMDVM_INI}
-    sed -i "s/{{DESCRIPTION}}/${DESCRIPTION}/g" ${MMDVM_INI}
+    sed -i "s|{{DESCRIPTION}}|${DESCRIPTION}|g" ${MMDVM_INI}
     # Change the string replace character to comply with characters valid in a 
     # URL
     sed -i "s|{{URL}}|${URL}|g" ${MMDVM_INI}
