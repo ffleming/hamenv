@@ -107,6 +107,11 @@ REPEATER_ID="${DMR_ID}01"
   # -p 31103:31103/udp \
 version=$(get_image_version ${IMAGE})
 op_name="${IMAGE}_$(to_lower ${CALLSIGN})-${REPEATER_ID}"
+
+docker build \
+  -t "${IMAGE}:${version}" \
+  build/dmr-bridge
+
 echo $op_name
 docker run \
   -d \
