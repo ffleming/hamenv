@@ -79,11 +79,7 @@ then
 fi
 
 REPEATER_ID="${DMR_ID}01"
-  # -p ${ANALOG_PORT}:${ANALOG_PORT}/udp \
-  # -p ${USRP_PORT}:${USRP_PORT}/udp \
-  # -p 62032:62032/udp \
-  # -p 31100:31100/udp \
-  # -p 31103:31103/udp \
+
 version=$(get_image_version ${IMAGE})
 op_name="${IMAGE}_$(to_lower ${CALLSIGN})-${REPEATER_ID}"
 
@@ -92,11 +88,6 @@ docker build \
   --build-arg CACHE_BUST=$RANDOM \
   build/dmr-bridge
 
-  # -e MMDVM_HOST=${HOST} \
-  # -e ANALOG_HOST=${HOST} \
-  # -p ${ANALOG_PORT}:${ANALOG_PORT}/udp \
-  # -p ${MMDVM_PORT}:${MMDVM_PORT}/udp \
-echo $op_name
 docker run \
   -d \
   --name ${op_name} \
