@@ -23,7 +23,8 @@ fi
 
 callsign=${1}
 containers=$(get_containers ${1})
-if [ ! -z ${containers} ]
+echo $containers
+if [ -n "${containers}" ]
 then
     docker stop ${containers}
 fi

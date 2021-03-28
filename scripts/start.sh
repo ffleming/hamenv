@@ -84,19 +84,28 @@ then
     exit 1
 fi
 
+  # -p ${ANALOG_PORT}:${ANALOG_PORT}/udp \
+  # -p ${USRP_PORT}:${USRP_PORT}/udp \
+  # -p 62032:62032/udp \
+  # -p 31100:31100/udp \
+  # -p 31103:31103/udp \
 version=$(get_image_version ${DMR_IMAGE})
 op_name="${DMR_IMAGE}_$(to_lower ${CALLSIGN})-${REPEATER_ID}"
-docker run --name ${op_name} \
-    -p ${ANALOG_PORT}:${ANALOG_PORT}/udp \
-    -p ${USRP_PORT}:${USRP_PORT}/udp \
-    -e CALLSIGN=${CALLSIGN} \
-    -e DMR_ID=${DMR_ID} \
-    -e ANALOG_HOST=${HOST} \
-    -e ANALOG_PORT=${ANALOG_PORT} \
-    -e MMDVM_HOST=${HOST} \
-    -e MMDVM_PORT=${MMDVM_PORT} \
-    -e USRP_PORT=${USRP_PORT} \
-    -e AMBE_DECODER_DEVICE=${AMBE_DECODER_DEVICE} \
-    -e BM_PASSWD=${BM_PASSWD} \
-    --device=${AMBE_DECODER_DEVICE} \
-    ${DMR_IMAGE}:${version}
+docker run \
+  -d \
+  --name ${op_name} \
+  -e CALLSIGN=${CALLSIGN} \
+  -e DMR_ID=${DMR_ID} \
+  -e ANALOG_HOST=${HOST} \
+  -e ANALOG_PORT=${ANALOG_PORT} \
+  -e MMDVM_HOST=${HOST} \
+  -e MMDVM_PORT=${MMDVM_PORT} \
+  -e USRP_PORT=${USRP_PORT} \
+  -e AMBE_DECODER_DEVICE=${AMBE_DECODER_DEVICE} \
+  -e BM_PASSWD=${BM_PASSWD} \
+  -p ${USRP_PORT}:${USRP_PORT}/udp \
+  -p ${ANALOG_PORT}:${ANALOG_PORT}/udp \
+  -p ${MMDVM_PORT}:${MMDVM_PORT}/udp \
+  --device=${AMBE_DECODER_DEVICE} \
+  --network bridge \
+  ${DMR_IMAGE}:${version}

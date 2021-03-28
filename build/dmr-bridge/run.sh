@@ -4,20 +4,19 @@ set -euo pipefail
 PROGRAM_DIR="/opt/Analog_Bridge"
 ANALOG_BRIDGE_CONFIG="/Analog_Bridge.ini"
 DVSWITCH_INI="/DVSwitch.ini"
-CALLSIGN=${CALLSIGN:-N0CALL}
+# CALLSIGN=${CALLSIGN:-N0CALL}
 ANALOG_HOST=${ANALOG_HOST:-127.0.0.1}
-ANALOG_PORT=${ANALOG_PORT:-31100}
+# ANALOG_PORT=${ANALOG_PORT:-31100}
 MMDVM_HOST=${MMDVM_HOST:-127.0.0.1}
-MMDVM_PORT=${MMDVM_PORT:-32000}
+# MMDVM_PORT=${MMDVM_PORT:-31103}
 USRP_PORT=${USRP_PORT:-51100}
 PLATFORM=${PLATFORM:-amd64}
 REPEATER_ID=${REPEATER_ID:-00}
 
-BM_ADDR=${BM_ADDR:-3101.repeater.net}
+BM_ADDR=${BM_ADDR:-3103.repeater.net}
 BM_PORT=${BM_PORT:-62031}
 BM_LOCAL_PORT=${BM_LOCAL_PORT:-62032}
-BM_PASSWD=${BM_PASSWD:-passw0rd}
-REPEATER_ID=${REPEATER_ID:-00}
+REPEATER_ID=${REPEATER_ID:-01}
 LATITUDE=${LATITUDE:-0}
 LONGITUDE=${LONGITUDE:-0}
 LOCATION=${LOCATION:-UNKNOWN}
@@ -41,7 +40,16 @@ then
     echo "No BM password provided, exiting."
     exit 1
 fi
-
+if [ -z ${ANALOG_PORT} ]
+then
+    echo "No port for Analog Bridge provided, exiting."
+    exit 1
+fi
+if [ -z ${MMDVM_PORT} ]
+then
+    echo "No port for MMDVM Bridge provided, exiting."
+    exit 1
+fi
 # Check if the configuration file exists and populate it if it does not
 if [ ! -f ${ANALOG_BRIDGE_CONFIG} ]
 then
