@@ -20,6 +20,8 @@ RUN apt-get update \
     && apt-get autoremove -y \
     && apt-get clean
 # end base build
+ARG CACHE_BUST
+RUN echo "Busting cache with $CACHE_BUST"
 COPY run.sh /
 COPY *.tmpl /
 COPY bridge.macro /

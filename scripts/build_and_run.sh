@@ -110,6 +110,7 @@ op_name="${IMAGE}_$(to_lower ${CALLSIGN})-${REPEATER_ID}"
 
 docker build \
   -t "${IMAGE}:${version}" \
+  --build-arg CACHE_BUST=$RANDOM \
   build/dmr-bridge
 
 echo $op_name
