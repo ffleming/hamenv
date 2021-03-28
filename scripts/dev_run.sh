@@ -4,8 +4,7 @@
 
 BUILD_PATH="build"
 IMAGES=(
-    "mmdvm-bridge"
-    "analog-bridge"
+    "dmr-bridge"
 )
 HOST=${HOST:-$(env | grep DOCKER_HOST | awk -F\: '{printf "%s\n", $2}' | sed "s|//||g")}
 ANALOG_ADDR=${ANALOG_ADDR:-${HOST}}

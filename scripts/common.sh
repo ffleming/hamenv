@@ -4,8 +4,6 @@
 
 # Development configurations
 BUILD_DIR=${BUILD_DIR:-"build"}
-ANALOG_IMAGE=${ANALOG_IMAGE:-"analog-bridge"}
-MMDVM_IMAGE=${MMDVM_IMAGE:-"mmdvm-bridge"}
 
 # Operator configurations
 CALLSIGN=${CALLSIGN:-""}
@@ -20,6 +18,8 @@ MMDVM_HOST=${MMDVM_HOST:-$HOST}
 MMDVM_PORT=${MMDVM_PORT:-32000}
 USRP_PORT=${USRP_PORT:-51100}
 AMBE_DECODER_DEVICE=${AMBE_DECODER_DEVICE:-/dev/ttyUSB0}
+
+DMR_IMAGE=dmr-bridge
 
 # docker_build_image builds the image with the provided name tagged with the 
 # provided version.

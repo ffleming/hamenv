@@ -14,9 +14,11 @@ RUN apt-get update \
     && git clone ${repo_base}/${analog_name} /src/${analog_name} \
     && git clone ${repo_base}/${mmdvm_name} /src/${mmdvm_name} \
     && mv /src/${analog_name}/bin/${analog_name}.${platform} /${analog_name} \
+    && mv /src/${mmdvm_name}/bin/${mmdvm_name}.${platform} /${mmdvm_name} \
     && mv /src/${mmdvm_name}/dvswitch.sh / \
-    && mkdir -p /opt/${mmdvm_Name} \
+    && mkdir -p /opt/${mmdvm_name} \
     && chmod +x /run.sh /dvswitch.sh \
     && apt-get purge -y ${tmp_pkgs} \
-    && apt-get autoremove -y
+    && apt-get autoremove -y \
+    && apt-get clean
 CMD ["bash", "/run.sh"]
