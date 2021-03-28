@@ -25,4 +25,8 @@ for a solution you like to be containerized and in the event
 that it makes sense, it will be added into the backlog for 
 completion.
 
+## History
 
+This is a fork of [hsoj's hamenv](https://github.com/hsoj/hamenv). It has a
+couple bugfixes, runs in a single container, and uses (and requires!) a DV3000
+hardware decoder.

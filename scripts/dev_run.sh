@@ -79,5 +79,6 @@ then
         -e DMR_ID=${DMR_ID} \
         -e ANALOG_ADDR=${ANALOG_ADDR} \
         -e MMDVM_ADDR=${MMDVM_ADDR} \
+        -e AMBE_DECODER_DEVICE=${AMBE_DECODER_DEVICE} \
         ${analog_image}:${analog_version}
 fi

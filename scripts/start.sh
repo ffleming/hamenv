@@ -16,8 +16,9 @@ ${0} -[cdrHACEM]
     -r, --repeater-id   The ID for the repeater
     -H, --host          The container host running the containers
     -A                  The port for the operator analog bridge container
-    -C                  The port that the operator mobile device connects to
+    -U                  The port that the operator mobile device connects to
     -M                  The port for the operator DMR bridge container
+    -D                  Path to AMBE decoder device (eg /dev/ttyUSB0)
 EOF
 }
 
@@ -45,12 +46,16 @@ do
             ANALOG_PORT=${2}
             shift
         ;;
-        -C)
-            MOBILE_CLIENT_PORT=${2}
+        -U)
+            USRP_PORT=${2}
             shift
         ;;
         -M)
             MMDVM_PORT=${2}
+            shift
+        ;;
+        -D)
+            AMBE_DECODER_DEVICE=${2}
             shift
         ;;
         -h)
@@ -90,6 +95,7 @@ docker run -d --name ${mmdvm_op_name} \
     -e ANALOG_PORT=${ANALOG_PORT} \
     -e MMDVM_PORT=${MMDVM_PORT} \
     -e REPEATER_ID=${REPEATER_ID} \
+    -e BM_PASSWD=${BM_PASSWD} \
     ${MMDVM_IMAGE}:${mmdvm_version}
 
 # Start the Analog bridge
@@ -97,12 +103,14 @@ analog_version=$(get_image_version ${ANALOG_IMAGE})
 analog_op_name="${ANALOG_IMAGE}_$(to_lower ${CALLSIGN})-${REPEATER_ID}"
 docker run -d --name ${analog_op_name} \
     -p ${ANALOG_PORT}:${ANALOG_PORT}/udp \
-    -p ${MOBILE_CLIENT_PORT}:${MOBILE_CLIENT_PORT}/udp \
+    -p ${USRP_PORT}:${USRP_PORT}/udp \
     -e CALLSIGN=${CALLSIGN} \
     -e DMR_ID=${DMR_ID} \
     -e ANALOG_HOST=${HOST} \
     -e ANALOG_PORT=${ANALOG_PORT} \
     -e MMDVM_HOST=${HOST} \
     -e MMDVM_PORT=${MMDVM_PORT} \
-    -e MOBILE_CLIENT_PORT=${MOBILE_CLIENT_PORT} \
+    -e USRP_PORT=${USRP_PORT} \
+    -e AMBE_DECODER_DEVICE=${AMBE_DECODER_DEVICE} \
+    --device=${AMBE_DECODER_DEVICE} \
     ${ANALOG_IMAGE}:${analog_version}

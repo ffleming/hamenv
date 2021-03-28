@@ -18,7 +18,8 @@ ANALOG_HOST=${ANALOG_HOST:-$HOST}
 ANALOG_PORT=${ANALOG_PORT:-31000}
 MMDVM_HOST=${MMDVM_HOST:-$HOST}
 MMDVM_PORT=${MMDVM_PORT:-32000}
-MOBILE_CLIENT_PORT=${MOBILE_CLIENT_PORT:-51100}
+USRP_PORT=${USRP_PORT:-51100}
+AMBE_DECODER_DEVICE=${AMBE_DECODER_DEVICE:-/dev/ttyUSB0}
 
 # docker_build_image builds the image with the provided name tagged with the 
 # provided version.

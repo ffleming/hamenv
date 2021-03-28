@@ -49,8 +49,8 @@ colorCode = 1                           ; Color Code to assign DMR frames
 ;   each instance with its own ini file.
 [USRP]
 address = {{ANALOG_HOST}}                     ; IP address of USRP partner (Allstar/Asterisk or another Analog_Bridge)
-txPort = {{MOBILE_CLIENT_PORT}}                          ; Transmit USRP frames on this port
-rxPort = {{MOBILE_CLIENT_PORT}}                          ; Listen for USRP frames on this port
+txPort = {{USRP_PORT}}                          ; Transmit USRP frames on this port
+rxPort = {{USRP_PORT}}                          ; Listen for USRP frames on this port
 usrpAudio = AUDIO_UNITY                 ; Digital -> Analog (AUDIO_UNITY, AUDIO_USE_GAIN, AUDIO_USE_AGC)
 usrpGain = 1.10                         ; Gain factor when usrpAudio = AUDIO_USE_GAIN (0.0 to 5.0) (1.0 = AUDIO_UNITY)
 usrpAgc = -20,10,100                    ; Set the agc threshold (db), slope (db) and decay (ms)
@@ -82,7 +82,7 @@ tlvGain = 0.35                          ; Gain factor when tlvAudio = AUDIO_USE_
 ;   Use bottom server/port and serial = true if using the DV3000u (thumbdv)
 ;   Did you run AMBETest4.py before using this?
 [DV3000]
-address = /dev/ttyUSB0              ; Device of DV3000U on this machine
+address = {{AMBE_DECODER_DEVICE}}              ; Device of DV3000U on this machine
 baud = 460800                       ; Baud rate of the dongle (230400 or 460800)
 serial = true                       ; Use serial=true for direct connect or serial=false for AMBEServer
 
