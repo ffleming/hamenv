@@ -10,14 +10,14 @@ Address = 127.0.0.1             ; Address to send IMBE TLV frames to (export)
 TXPort = 34103                  ; Port to send IMBE TLV frames to (export) 
 RXPort = 34100                  ; Port to listen on (import)
 quantarPort = 1994              ; HDLC frames To/From the Quantar repeater
-logLevel = 1                    ; Show messages and above 0=No logging, 1=Debug, 2=Message, 3=Info, 4=Warning, 5=Error, 6=Fatal
+logLevel = 4                    ; Show messages and above 0=No logging, 1=Debug, 2=Message, 3=Info, 4=Warning, 5=Error, 6=Fatal
 debug = 0                       ; Debug 0 = off, 1 = on (adds lots of additional messages)
 
 ; Configure the DMR Partner
 ; Audio format is AMBE 72 bit
 [DMR]
-Address = {{ANALOG_HOST}}             ; Address to send AMBE TLV frames to (export)
-txPort = {{ANALOG_PORT}}              ; Reverse of analog Bridge tx/rx ports
+Address = 127.0.0.1             ; Address to send AMBE TLV frames to (export)
+txPort = {{ANALOG_PORT}}        ; Reverse of analog Bridge tx/rx ports
 rxPort = {{MMDVM_PORT}}
 Slot = 2                        ; Export slot
 ExportTG = 0                    ; Which TG to export 

@@ -4,8 +4,6 @@ set -eo pipefail
 PROGRAM_DIR="/opt/Analog_Bridge"
 ANALOG_BRIDGE_CONFIG="/Analog_Bridge.ini"
 DVSWITCH_INI="/DVSwitch.ini"
-ANALOG_HOST=${ANALOG_HOST:-127.0.0.1}
-MMDVM_HOST=${MMDVM_HOST:-127.0.0.1}
 USRP_PORT=${USRP_PORT:-51100}
 PLATFORM=${PLATFORM:-amd64}
 BM_ADDR=${BM_ADDR:-3103.repeater.net}
@@ -50,10 +48,7 @@ if [ ! -f ${ANALOG_BRIDGE_CONFIG} ]
 then
     echo -n "configuring analog bridge..."
     cp ${ANALOG_BRIDGE_CONFIG}.tmpl ${ANALOG_BRIDGE_CONFIG}
-    sed -i "s/{{ANALOG_HOST}}/${ANALOG_HOST}/g" ${ANALOG_BRIDGE_CONFIG}
     sed -i "s/{{ANALOG_PORT}}/${ANALOG_PORT}/g" ${ANALOG_BRIDGE_CONFIG}
-    sed -i "s/{{ANALOG_HOST}}/${ANALOG_HOST}/g" ${ANALOG_BRIDGE_CONFIG}
-    sed -i "s/{{MMDVM_HOST}}/${MMDVM_HOST}/g" ${ANALOG_BRIDGE_CONFIG}
     sed -i "s/{{MMDVM_PORT}}/${MMDVM_PORT}/g" ${ANALOG_BRIDGE_CONFIG}
     sed -i "s/{{USRP_PORT}}/${USRP_PORT}/g" ${ANALOG_BRIDGE_CONFIG}
     sed -i "s/{{DMR_ID}}/${DMR_ID}/g" ${ANALOG_BRIDGE_CONFIG}
@@ -64,7 +59,6 @@ then
     echo -n "configuring DVSwitch..."
     cp ${DVSWITCH_INI}.tmpl ${DVSWITCH_INI}
     sed -i "s/{{CALLSIGN}}/${CALLSIGN}/g" ${DVSWITCH_INI}
-    sed -i "s/{{ANALOG_HOST}}/${ANALOG_HOST}/g" ${DVSWITCH_INI}
     sed -i "s/{{ANALOG_PORT}}/${ANALOG_PORT}/g" ${DVSWITCH_INI}
     sed -i "s/{{MMDVM_PORT}}/${MMDVM_PORT}/g" ${DVSWITCH_INI}
     # TODO: Figure out where this hardcoded value is getting set and determine 

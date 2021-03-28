@@ -11,7 +11,6 @@ ${0} -[cdrHACEM]
     -c, --callsign      The operator callsign
     -d, --dmr-id        The operator DMR ID
     -r, --repeater-id   The ID for the repeater
-    -H, --host          The container host running the containers
     -A                  The port for the operator analog bridge container
     -U                  The port that the operator mobile device connects to
     -M                  The port for the operator DMR bridge container
@@ -45,10 +44,6 @@ do
         ;;
         -r|--repeater-id)
             REPEATER_ID=${2}
-            shift
-        ;;
-        -H|--host)
-            HOST=${2}
             shift
         ;;
         -A)
@@ -87,12 +82,6 @@ then
     exit 1
 fi
 
-if [ -z ${HOST} ]
-then
-    echo "ERROR: No host provided, exiting."
-    exit 1
-fi
-
 if [ -z ${AMBE_DECODER_DEVICE} ]
 then
     echo "ERROR: No AMBE device path provided, exiting."
@@ -115,6 +104,8 @@ docker build \
 
   # -e MMDVM_HOST=${HOST} \
   # -e ANALOG_HOST=${HOST} \
+  # -p ${ANALOG_PORT}:${ANALOG_PORT}/udp \
+  # -p ${MMDVM_PORT}:${MMDVM_PORT}/udp \
 echo $op_name
 docker run \
   -d \
@@ -129,8 +120,6 @@ docker run \
   -e AMBE_DECODER_DEVICE=${AMBE_DECODER_DEVICE} \
   -e BM_PASSWD=${BM_PASSWD} \
   -p ${USRP_PORT}:${USRP_PORT}/udp \
-  -p ${ANALOG_PORT}:${ANALOG_PORT}/udp \
-  -p ${MMDVM_PORT}:${MMDVM_PORT}/udp \
   --device=${AMBE_DECODER_DEVICE} \
   --network bridge \
   ${IMAGE}:${version}
