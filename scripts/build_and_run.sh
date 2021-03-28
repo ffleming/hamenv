@@ -113,15 +113,17 @@ docker build \
   --build-arg CACHE_BUST=$RANDOM \
   build/dmr-bridge
 
+  # -e MMDVM_HOST=${HOST} \
+  # -e ANALOG_HOST=${HOST} \
 echo $op_name
 docker run \
   -d \
   --name ${op_name} \
   -e CALLSIGN=${CALLSIGN} \
   -e DMR_ID=${DMR_ID} \
-  -e ANALOG_HOST=${HOST} \
+  -e ANALOG_HOST=127.0.0.1 \
   -e ANALOG_PORT=${ANALOG_PORT} \
-  -e MMDVM_HOST=${HOST} \
+  -e MMDVM_HOST=127.0.0.1 \
   -e MMDVM_PORT=${MMDVM_PORT} \
   -e USRP_PORT=${USRP_PORT} \
   -e AMBE_DECODER_DEVICE=${AMBE_DECODER_DEVICE} \
