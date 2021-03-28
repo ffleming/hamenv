@@ -27,15 +27,14 @@ useEmulator = false                     ; Require hardware decoder
 ; Information for xx_Bridge (Where xx is MMDVM, Quantar, HB, IPSC)
 [AMBE_AUDIO]
 address = {{MMDVM_HOST}}                ; IP address of xx_Bridge
-txPort = {{MMDVM_PORT}}                          ; Transmit TLV frames to partner on this port
-rxPort = {{ANALOG_PORT}}                          ; Listen for TLV frames from partner on this port
+txPort = {{MMDVM_PORT}}                 ; Transmit TLV frames to partner on this port
+rxPort = {{ANALOG_PORT}}                ; Listen for TLV frames from partner on this port
 ambeMode = DMR                          ; DMR, DMR_IPSC, DSTAR, NXDN, P25, YSFN, YSFW (encode PCM to this format)
 minTxTimeMS = 2500                      ; Minimum time in MS for hang delay (0-10000)
 
 ; The metadata below is used when ASL is the source since it does not have any concept of digital modes
 gatewayDmrId = {{DMR_ID}}                ; ID to use when transmitting from Analog_Bridge 7 digit ID
-; repeaterID = {{REPEATER_ID}}          ; ID of source repeater 7 digit ID plus 2 digit SSID 
-repeaterID = {{DMR_ID}}01          ; ID of source repeater 7 digit ID plus 2 digit SSID 
+repeaterID = {{REPEATER_ID}}          ; ID of source repeater 7 digit ID plus 2 digit SSID 
 txTg = 9                                ; TG to use for all frames sent from Analog_Bridge -> xx_Bridge
 txTs = 2                                ; Slot to use for frames sent from Analog_Bridge -> xx_Bridge
 colorCode = 1                           ; Color Code to assign DMR frames

@@ -1,11 +1,8 @@
 #!/usr/bin/env bash
-#
-#   Simple script to assist in starting up environments for individuals
-#
+set -eo pipefail
 
-# Source the common scripts
-__DIR="${BASH_SOURCE%/*}"
-. "${__DIR}/common.sh"
+IMAGE="dmr-bridge"
+BUILD_DIR="build"
 
 function print_help() {
     cat <<EOF
@@ -22,6 +19,18 @@ ${0} -[cdrHACEM]
 EOF
 }
 
+# get_image_version returns the current value of the VERSION file in the 
+# provided image's build directory.
+function get_image_version() {
+    local image_name="${1}"
+    echo $(cat ${BUILD_DIR}/${image_name}/VERSION)
+}
+
+# to_lower returns the input string as all lower-cased characters
+function to_lower() {
+    local in_string="${1}"
+    echo "${in_string}" | tr '[:upper:]' '[:lower:]'
+}
 # Gather all of the arguments passed and override any current configurations
 while (($#))
 do
@@ -84,13 +93,21 @@ then
     exit 1
 fi
 
+if [ -z ${AMBE_DECODER_DEVICE} ]
+then
+    echo "ERROR: No AMBE device path provided, exiting."
+    exit 1
+fi
+
+REPEATER_ID="${DMR_ID}01"
   # -p ${ANALOG_PORT}:${ANALOG_PORT}/udp \
   # -p ${USRP_PORT}:${USRP_PORT}/udp \
   # -p 62032:62032/udp \
   # -p 31100:31100/udp \
   # -p 31103:31103/udp \
-version=$(get_image_version ${DMR_IMAGE})
-op_name="${DMR_IMAGE}_$(to_lower ${CALLSIGN})-${REPEATER_ID}"
+version=$(get_image_version ${IMAGE})
+op_name="${IMAGE}_$(to_lower ${CALLSIGN})-${REPEATER_ID}"
+echo $op_name
 docker run \
   -d \
   --name ${op_name} \
@@ -108,4 +125,4 @@ docker run \
   -p ${MMDVM_PORT}:${MMDVM_PORT}/udp \
   --device=${AMBE_DECODER_DEVICE} \
   --network bridge \
-  ${DMR_IMAGE}:${version}
+  ${IMAGE}:${version}
