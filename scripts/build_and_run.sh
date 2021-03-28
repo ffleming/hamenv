@@ -98,5 +98,4 @@ docker run \
   -e BM_PASSWD=${BM_PASSWD} \
   -p ${USRP_PORT}:${USRP_PORT}/udp \
   --device=${AMBE_DECODER_DEVICE} \
-  --network bridge \
   ${IMAGE}:${version}
