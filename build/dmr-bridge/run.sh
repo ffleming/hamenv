@@ -66,6 +66,7 @@ then
     echo -n "Configuring the MMDVM bridge..."
     cp ${MMDVM_INI}.tmpl ${MMDVM_INI}
     sed -i "s/{{CALLSIGN}}/${CALLSIGN}/g" ${MMDVM_INI}
+    sed -i "s/{{REPEATER_ID}}/${REPEATER_ID}/g" ${MMDVM_INI}
     sed -i "s/{{DMR_ID}}/${DMR_ID}/g" ${MMDVM_INI}
     sed -i "s/{{LATITUDE}}/${LATITUDE}/g" ${MMDVM_INI}
     sed -i "s/{{LONGITUDE}}/${LONGITUDE}/g" ${MMDVM_INI}
