@@ -4,13 +4,11 @@
 
 BUILD_PATH="build"
 IMAGES=(
-    "md380-emu"
     "mmdvm-bridge"
     "analog-bridge"
 )
 HOST=${HOST:-$(env | grep DOCKER_HOST | awk -F\: '{printf "%s\n", $2}' | sed "s|//||g")}
 ANALOG_ADDR=${ANALOG_ADDR:-${HOST}}
-EMULATOR_ADDR=${EMULATOR_ADDR:-${HOST}}
 MMDVM_ADDR=${MMDVM_ADDR:-${HOST}}
 
 if [ -f .env ]
@@ -46,23 +44,6 @@ function container_running() {
     fi
 }
 
-# TODO: Put the following into Ansible.
-
-# Ensure that the md380 emulator container is running
-# TODO: Add better port exposure handling.
-md380_image="md380-emu"
-md380_name=${MD380_NAME:-${md380_image}}
-md380_path="${BUILD_PATH}/${md380_image}"
-md380_version=${MD380_VERSION:-$(cat "${md380_path}/VERSION")}
-if [ -z $(container_running "${md380_name}" "${md380_version}") ]
-then
-    docker stop ${md380_name}
-    docker rm ${md380_name}
-    docker run -d --name ${md380_name} \
-        -p 2470:2470/udp \
-        ${md380_image}:${md380_version}
-fi
-
 # Ensure that the MMDVM bridge container is running
 # TODO: Add better port exposure handling.
 mmdvm_image="mmdvm-bridge"
@@ -97,7 +78,6 @@ then
         -p 51100:51100/udp \
         -e DMR_ID=${DMR_ID} \
         -e ANALOG_ADDR=${ANALOG_ADDR} \
-        -e EMULATOR_ADDR=${EMULATOR_ADDR} \
         -e MMDVM_ADDR=${MMDVM_ADDR} \
         ${analog_image}:${analog_version}
 fi

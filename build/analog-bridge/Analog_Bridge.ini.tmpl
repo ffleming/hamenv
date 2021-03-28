@@ -21,9 +21,8 @@ transferRootDir = /tmp			; Export database files to USRP partner
 subscriberFile = /subscriber_ids.csv   ; DMR ID to callsign lookup data
 
 ; General vocoder setup information
-decoderFallBack = true                  ; Allow software AMBE decoding if a hardware decoder is not found
-useEmulator = true                     ; Use the MD380 AMBE emulator for AMBE72 (DMR/YSFN/NXDN)
-emulatorAddress = {{EMULATOR_HOST}}:{{EMULATOR_PORT}}        ; IP address and port of the md380 server
+decoderFallBack = false                  ; Require hardware decoder
+useEmulator = false                     ; Require hardware decoder
 
 ; Information for xx_Bridge (Where xx is MMDVM, Quantar, HB, IPSC)
 [AMBE_AUDIO]
@@ -83,9 +82,7 @@ tlvGain = 0.35                          ; Gain factor when tlvAudio = AUDIO_USE_
 ;   Use bottom server/port and serial = true if using the DV3000u (thumbdv)
 ;   Did you run AMBETest4.py before using this?
 [DV3000]
-address = {{ANALOG_HOST}}                   ; IP address of AMBEServer
-rxPort = 2460                         ; Port of AMBEServer
-; address = /dev/ttyUSB0              ; Device of DV3000U on this machine
-; baud = 460800                       ; Baud rate of the dongle (230400 or 460800)
-; serial = false                       ; Use serial=true for direct connect or serial=false for AMBEServer
+address = /dev/ttyUSB0              ; Device of DV3000U on this machine
+baud = 460800                       ; Baud rate of the dongle (230400 or 460800)
+serial = true                       ; Use serial=true for direct connect or serial=false for AMBEServer
 

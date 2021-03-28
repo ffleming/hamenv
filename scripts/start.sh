@@ -17,7 +17,6 @@ ${0} -[cdrHACEM]
     -H, --host          The container host running the containers
     -A                  The port for the operator analog bridge container
     -C                  The port that the operator mobile device connects to
-    -E                  The port for the operator emulator container
     -M                  The port for the operator DMR bridge container
 EOF
 }
@@ -50,10 +49,6 @@ do
             MOBILE_CLIENT_PORT=${2}
             shift
         ;;
-        -E)
-            EMULATOR_PORT=${2}
-            shift
-        ;;
         -M)
             MMDVM_PORT=${2}
             shift
@@ -84,15 +79,6 @@ then
     exit 1
 fi
 
-#  Start the emulator
-emu_version=$(get_image_version ${EMULATOR_IMAGE})
-emu_op_name="${EMULATOR_IMAGE}_$(to_lower ${CALLSIGN})-${REPEATER_ID}"
-docker run -id --rm --name ${emu_op_name} \
-    -p ${EMULATOR_PORT}:${EMULATOR_PORT}/udp \
-    -e EMULATOR_PORT=${EMULATOR_PORT} \
-    ${EMULATOR_IMAGE}:${emu_version}
-#docker start ${emu_op_name}
-
 # Start the MMDVM bridge
 mmdvm_version=$(get_image_version ${MMDVM_IMAGE})
 mmdvm_op_name="${MMDVM_IMAGE}_$(to_lower ${CALLSIGN})-${REPEATER_ID}"
@@ -116,8 +102,6 @@ docker run -d --name ${analog_op_name} \
     -e DMR_ID=${DMR_ID} \
     -e ANALOG_HOST=${HOST} \
     -e ANALOG_PORT=${ANALOG_PORT} \
-    -e EMULATOR_HOST=${HOST} \
-    -e EMULATOR_PORT=${EMULATOR_PORT} \
     -e MMDVM_HOST=${HOST} \
     -e MMDVM_PORT=${MMDVM_PORT} \
     -e MOBILE_CLIENT_PORT=${MOBILE_CLIENT_PORT} \

@@ -8,8 +8,6 @@ DVSWITCH_INI="/DVSwitch.ini"
 CALLSIGN=${CALLSIGN:-N0CALL}
 ANALOG_HOST=${ANALOG_HOST:-127.0.0.1}
 ANALOG_PORT=${ANALOG_PORT:-31100}
-EMULATOR_HOST=${EMULATOR_HOST:-127.0.0.1}
-EMULATOR_PORT=${EMULATOR_PORT:-2470}
 MMDVM_HOST=${MMDVM_HOST:-127.0.0.1}
 MMDVM_PORT=${MMDVM_PORT:-32000}
 MOBILE_CLIENT_PORT=${MOBILE_CLIENT_PORT:-51100}
@@ -28,8 +26,6 @@ then
     # instead of forcing these configurations through sed
     echo -n "Configuring the analog bridge..."
     cp ${CONFIG}.tmpl ${CONFIG}
-    sed -i "s/{{EMULATOR_HOST}}/${EMULATOR_HOST}/g" ${CONFIG}
-    sed -i "s/{{EMULATOR_PORT}}/${EMULATOR_PORT}/g" ${CONFIG}
     sed -i "s/{{ANALOG_HOST}}/${ANALOG_HOST}/g" ${CONFIG}
     sed -i "s/{{ANALOG_PORT}}/${ANALOG_PORT}/g" ${CONFIG}
     sed -i "s/{{MMDVM_HOST}}/${MMDVM_HOST}/g" ${CONFIG}
