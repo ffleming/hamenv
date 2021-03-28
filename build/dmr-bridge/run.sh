@@ -33,23 +33,11 @@ then
     echo "No BM password provided, exiting."
     exit 1
 fi
-if [ -z ${ANALOG_PORT} ]
-then
-    echo "No port for Analog Bridge provided, exiting."
-    exit 1
-fi
-if [ -z ${MMDVM_PORT} ]
-then
-    echo "No port for MMDVM Bridge provided, exiting."
-    exit 1
-fi
 # Check if the configuration file exists and populate it if it does not
 if [ ! -f ${ANALOG_BRIDGE_CONFIG} ]
 then
     echo -n "configuring analog bridge..."
     cp ${ANALOG_BRIDGE_CONFIG}.tmpl ${ANALOG_BRIDGE_CONFIG}
-    sed -i "s/{{ANALOG_PORT}}/${ANALOG_PORT}/g" ${ANALOG_BRIDGE_CONFIG}
-    sed -i "s/{{MMDVM_PORT}}/${MMDVM_PORT}/g" ${ANALOG_BRIDGE_CONFIG}
     sed -i "s/{{USRP_PORT}}/${USRP_PORT}/g" ${ANALOG_BRIDGE_CONFIG}
     sed -i "s/{{DMR_ID}}/${DMR_ID}/g" ${ANALOG_BRIDGE_CONFIG}
     sed -i "s/{{REPEATER_ID}}/${REPEATER_ID}/g" ${ANALOG_BRIDGE_CONFIG}
@@ -59,8 +47,6 @@ then
     echo -n "configuring DVSwitch..."
     cp ${DVSWITCH_INI}.tmpl ${DVSWITCH_INI}
     sed -i "s/{{CALLSIGN}}/${CALLSIGN}/g" ${DVSWITCH_INI}
-    sed -i "s/{{ANALOG_PORT}}/${ANALOG_PORT}/g" ${DVSWITCH_INI}
-    sed -i "s/{{MMDVM_PORT}}/${MMDVM_PORT}/g" ${DVSWITCH_INI}
     # TODO: Figure out where this hardcoded value is getting set and determine 
     # the best way to avoid having to create this symlink
     ln -s ${DVSWITCH_INI} /opt/MMDVM_Bridge/DVSwitch.ini

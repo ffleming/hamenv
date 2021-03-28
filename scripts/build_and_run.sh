@@ -11,9 +11,7 @@ ${0} -[cdrHACEM]
     -c, --callsign      The operator callsign
     -d, --dmr-id        The operator DMR ID
     -r, --repeater-id   The ID for the repeater
-    -A                  The port for the operator analog bridge container
-    -U                  The port that the operator mobile device connects to
-    -M                  The port for the operator DMR bridge container
+    -p                  The port that the operator mobile device connects to
     -D                  Path to AMBE decoder device (eg /dev/ttyUSB0)
 EOF
 }
@@ -46,16 +44,8 @@ do
             REPEATER_ID=${2}
             shift
         ;;
-        -A)
-            ANALOG_PORT=${2}
-            shift
-        ;;
-        -U)
+        -p)
             USRP_PORT=${2}
-            shift
-        ;;
-        -M)
-            MMDVM_PORT=${2}
             shift
         ;;
         -D)
@@ -112,10 +102,6 @@ docker run \
   --name ${op_name} \
   -e CALLSIGN=${CALLSIGN} \
   -e DMR_ID=${DMR_ID} \
-  -e ANALOG_HOST=127.0.0.1 \
-  -e ANALOG_PORT=31103 \
-  -e MMDVM_HOST=127.0.0.1 \
-  -e MMDVM_PORT=31100 \
   -e USRP_PORT=${USRP_PORT} \
   -e AMBE_DECODER_DEVICE=${AMBE_DECODER_DEVICE} \
   -e BM_PASSWD=${BM_PASSWD} \

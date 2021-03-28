@@ -27,8 +27,8 @@ useEmulator = false                     ; Require hardware decoder
 ; Information for xx_Bridge (Where xx is MMDVM, Quantar, HB, IPSC)
 [AMBE_AUDIO]
 address = 127.0.0.1                     ; IP address of xx_Bridge
-txPort = {{MMDVM_PORT}}                 ; Transmit TLV frames to partner on this port
-rxPort = {{ANALOG_PORT}}                ; Listen for TLV frames from partner on this port
+txPort = 31100                          ; Transmit TLV frames to partner on this port
+rxPort = 31103                          ; Listen for TLV frames from partner on this port
 ambeMode = DMR                          ; DMR, DMR_IPSC, DSTAR, NXDN, P25, YSFN, YSFW (encode PCM to this format)
 minTxTimeMS = 2500                      ; Minimum time in MS for hang delay (0-10000)
 
